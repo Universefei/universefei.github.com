@@ -1,0 +1,555 @@
+<!doctype html>
+<html class="theme-next use-motion ">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.3"/>
+
+
+
+
+  <meta name="keywords" content="gis," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.3" />
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    analytics: {
+      google: ''
+    },
+    sidebar: 'post'
+  };
+</script>
+
+
+
+
+  <title> 用python写一个osm2rdbms导入工具 // Fei Lunzhou </title>
+</head>
+
+<body>
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">Fei Lunzhou</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<div class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/">
+            <i class="menu-item-icon icon-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            <i class="menu-item-icon icon-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            <i class="menu-item-icon icon-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+</div>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              用python写一个osm2rdbms导入工具
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          發表於 2015-07-04
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2015/07/04/GIS/用python写一个osm2rdbms导入工具/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/04/GIS/用python写一个osm2rdbms导入工具/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <h3 id="代码">代码</h3><p>首先贴出代码:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> osgeo <span class="keyword">import</span> ogr</span><br><span class="line"><span class="keyword">import</span> pyodbc</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    src_conn_info = <span class="string">"../shape_eg_data/pline.shp"</span></span><br><span class="line">    dst_conn_info = <span class="string">"DSN=svde;SERVER=127.0.0.1;TCP_PORT=5236;UID=SYSDBA;PWD=SYSDBA;"</span></span><br><span class="line"></span><br><span class="line">    ogr_dm_type_mapping = &#123;</span><br><span class="line">            <span class="string">'0'</span> : <span class="string">'integer'</span>,</span><br><span class="line">            <span class="string">'1'</span> : <span class="string">'double'</span>,</span><br><span class="line">            <span class="string">'2'</span> : <span class="string">'varchar'</span>,</span><br><span class="line">            <span class="string">'3'</span> : <span class="string">'varchar'</span>,</span><br><span class="line">            <span class="string">'4'</span> : <span class="string">'varchar'</span>,</span><br><span class="line">            <span class="string">'5'</span> : <span class="string">'varchar'</span>,</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">    ogr_geom_type_mapping = &#123;</span><br><span class="line">            <span class="string">'0'</span> : <span class="string">'Point'</span>,</span><br><span class="line">            <span class="string">'1'</span> : <span class="string">'LineString'</span>,</span><br><span class="line">            <span class="string">'2'</span> : <span class="string">'Polygon'</span>,</span><br><span class="line">            <span class="string">'3'</span> : <span class="string">'MultiPoint'</span>,</span><br><span class="line">            <span class="string">'4'</span> : <span class="string">'MultiLineString'</span>,</span><br><span class="line">            <span class="string">'5'</span> : <span class="string">'MultiPolygon'</span>,</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">    dm_conn = pyodbc.connect(dst_conn_info)</span><br><span class="line">    cursor = dm_conn.cursor()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Ensure metadata talbes exsits</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        cursor.execute(<span class="string">"""select 1 from svde_metadata"""</span>)</span><br><span class="line">    <span class="keyword">except</span> pyodbc.ProgrammingError:</span><br><span class="line">        cursor.execute(<span class="string">"""create table svde_metadata(</span><br><span class="line">                        table_name varchar primary key,</span><br><span class="line">                        geom_column_name varchar not null,</span><br><span class="line">                        geom_type varchar,</span><br><span class="line">                        geom_dimension varchar,</span><br><span class="line">                        geom_srid varchar)"""</span>)</span><br><span class="line">        cursor.execute(<span class="string">"""create table svde_srs(</span><br><span class="line">                        srid varchar primary key,</span><br><span class="line">                        auth_name varchar,</span><br><span class="line">                        auth_srid varchar,</span><br><span class="line">                        srtext varchar not null,</span><br><span class="line">                        proj4text varchar)"""</span>)</span><br><span class="line">        cursor.execute(<span class="string">"""create table svde_column_defn(</span><br><span class="line">                        cid varchar,</span><br><span class="line">                        table_name varchar not null,</span><br><span class="line">                        column_name varchar not null,</span><br><span class="line">                        column_type varchar not null,</span><br><span class="line">                        primary key (table_name, column_name))"""</span>)</span><br><span class="line">        cursor.commit()</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"metadata tables already exists in database!"</span></span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Create table for shapefile layer</span></span><br><span class="line"></span><br><span class="line">    ds = ogr.Open(src_conn_info)</span><br><span class="line">    layer = ds.GetLayer()</span><br><span class="line">    layer_defn = layer.GetLayerDefn()</span><br><span class="line">    field_count = layer_defn.GetFieldCount()</span><br><span class="line"></span><br><span class="line">    fields_type_dict = &#123;&#125;</span><br><span class="line">    fields_defn_serial = <span class="string">""</span></span><br><span class="line">    fields_comma_serial = <span class="string">""</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, field_count-<span class="number">1</span>):</span><br><span class="line">        field_name = layer_defn.GetFieldDefn(i).GetName()</span><br><span class="line">        field_type = layer_defn.GetFieldDefn(i).GetType()</span><br><span class="line">        fields_type_dict[field_name] = ogr_dm_type_mapping[str(field_type)]</span><br><span class="line">        fields_defn_serial += field_name + <span class="string">' '</span> + ogr_dm_type_mapping[str(field_type)] + <span class="string">','</span></span><br><span class="line">        fields_comma_serial += field_name + <span class="string">','</span></span><br><span class="line"></span><br><span class="line">    fields_defn_serial = fields_defn_serial.rstrip(<span class="string">', '</span>)</span><br><span class="line">    fields_comma_serial = fields_comma_serial.rstrip(<span class="string">', '</span>)</span><br><span class="line"></span><br><span class="line">    table_name = layer_defn.GetName()</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"fields_comma_serial"</span> + fields_comma_serial</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"""create table %s (</span><br><span class="line">                   %s,</span><br><span class="line">                   fid varchar primary key,</span><br><span class="line">                   geom varchar)"""</span> % (table_name, fields_defn_serial)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        cursor.execute(<span class="string">"""select 1 from %s"""</span> % (table_name) )</span><br><span class="line">    <span class="keyword">except</span> pyodbc.ProgrammingError:</span><br><span class="line">        <span class="comment"># 1] create table for layer</span></span><br><span class="line">        <span class="comment"># 2] register geom colum in svde_metadata </span></span><br><span class="line">        <span class="comment"># 3] register column in svde_column_defn</span></span><br><span class="line">        cursor.execute(<span class="string">"""create table %s (</span><br><span class="line">                       %s,</span><br><span class="line">                       fid varchar primary key,</span><br><span class="line">                       geom varchar)"""</span> % (table_name, fields_defn_serial) ) </span><br><span class="line">        cursor.commit()</span><br><span class="line"></span><br><span class="line">        geom_type = ogr_geom_type_mapping[str(layer_defn.GetGeomType())]</span><br><span class="line">        geom_dimension = str(<span class="number">2</span>)</span><br><span class="line">        geom_srid = str(<span class="number">900913</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">print</span> <span class="string">"""insert into svde_metadata(table_name, geom_column_name, geom_type,</span><br><span class="line">                geom_dimension, geom_srid) values (%s, 'geom', %s, %s, %s)</span><br><span class="line">                """</span> % (repr(table_name), repr(geom_type), repr(geom_dimension), repr(geom_srid) )</span><br><span class="line"></span><br><span class="line">        cursor.execute(<span class="string">"""insert into svde_metadata(table_name, geom_column_name, geom_type,</span><br><span class="line">                geom_dimension, geom_srid) values (%s, 'geom', %s, %s, %s)</span><br><span class="line">                """</span> % (repr(table_name), repr(geom_type), repr(geom_dimension), repr(geom_srid) ) )</span><br><span class="line"></span><br><span class="line">        <span class="keyword">print</span> fields_type_dict</span><br><span class="line">        <span class="keyword">for</span> cname, cvalue <span class="keyword">in</span> fields_type_dict.items():</span><br><span class="line">            cursor.execute(<span class="string">"""insert into svde_column_defn( table_name, column_name, column_type)</span><br><span class="line">                            values ('%s', '%s', '%s')"""</span> % (table_name, cname, str(cvalue)) )</span><br><span class="line">        cursor.commit()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"table "</span> + str(table_name) + <span class="string">"already exsit"</span></span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Read shapefile layer into OGR objects and Persist ogr objects into dameng </span></span><br><span class="line">    </span><br><span class="line">    fid = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> feat <span class="keyword">in</span> layer:</span><br><span class="line">        fid = fid + <span class="number">1</span></span><br><span class="line">        values_comma_serial = <span class="string">""</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, field_count-<span class="number">1</span>):</span><br><span class="line">            value = feat.GetFieldAsString(i)</span><br><span class="line">            values_comma_serial += repr(value) + <span class="string">','</span></span><br><span class="line"></span><br><span class="line">        values_comma_serial = values_comma_serial.rstrip(<span class="string">','</span>)</span><br><span class="line">        geom_wkt = feat.GetGeometryRef().ExportToWkt()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">print</span> <span class="string">"""insert into %s(%s, fid, geom) values (%s, '%s' , '%s')"""</span> % (</span><br><span class="line">            table_name, fields_comma_serial, values_comma_serial, str(fid), geom_wkt) </span><br><span class="line">        </span><br><span class="line">        cursor.execute(<span class="string">"""insert into %s(%s, fid, geom) values (%s, '%s' , '%s')"""</span> % (</span><br><span class="line">            table_name, fields_comma_serial, values_comma_serial, str(fid), geom_wkt) )</span><br><span class="line">        <span class="comment"># allowed most 100 sql statement, so should not commit after execute all</span></span><br><span class="line">        cursor.commit()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__  ==   <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/gis/"> #gis </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/04/GIS/用PL-pgSQL对osm数据进行矢量分级/">用PL/pgSQL对osm数据进行矢量分级</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/07/04/GIS/GIS空间索引技术总结/">GIS空间索引技术总结</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2015/07/04/GIS/用python写一个osm2rdbms导入工具/"
+               data-title="用python写一个osm2rdbms导入工具" data-url="http://yoursite.com/2015/07/04/GIS/用python写一个osm2rdbms导入工具/">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+
+        
+      </div>
+
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="https://avatars3.githubusercontent.com/u/4932234" alt="Fei Lunzhou" />
+          <p class="site-author-name">Fei Lunzhou</p>
+        </div>
+        <p class="site-description motion-element"></p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">23</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分類</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </div>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+              <a href="https://github.com/universefei" target="_blank">github</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://weibo.com/" target="_blank">weibo</a>
+            </span>
+            
+          
+        </div>
+
+        
+        
+
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#代码"><span class="nav-number">1.</span> <span class="nav-text">代码</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">Fei Lunzhou</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.3"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.3"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.3" id="motion.global"></script>
+
+
+
+  <script type="text/javascript" src="/js/search-toggle.js"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.3" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if (isDesktop() && CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    });
+  </script>
+
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"feilunzhou"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+  
+
+</body>
+</html>

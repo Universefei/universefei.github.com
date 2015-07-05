@@ -1,0 +1,704 @@
+<!doctype html>
+<html class="theme-next use-motion ">
+<head>
+  
+
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+  <link rel="stylesheet" type="text/css" href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5"/>
+
+
+<link rel="stylesheet" type="text/css" href="/css/main.css?v=0.4.3"/>
+
+
+
+
+  <meta name="keywords" content="git," />
+
+
+
+
+
+  <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.3" />
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: '',
+    analytics: {
+      google: ''
+    },
+    sidebar: 'post'
+  };
+</script>
+
+
+
+
+  <title> 我的Git命令箱 // Fei Lunzhou </title>
+</head>
+
+<body>
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <div id="header" class="header">
+      <div class="header-inner">
+        <h1 class="site-meta">
+  <span class="logo-line-before"><i></i></span>
+  <a href="/" class="brand">
+      <span class="logo">
+        <i class="icon-logo"></i>
+      </span>
+      <span class="site-title">Fei Lunzhou</span>
+  </a>
+  <span class="logo-line-after"><i></i></span>
+</h1>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<div class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/">
+            <i class="menu-item-icon icon-home"></i> <br />
+            首頁
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            <i class="menu-item-icon icon-archives"></i> <br />
+            歸檔
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            <i class="menu-item-icon icon-tags"></i> <br />
+            標籤
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+</div>
+
+
+      </div>
+    </div>
+
+    <div id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  <div class="post post-type-normal ">
+    <div class="post-header">
+
+      
+      
+        <h1 class="post-title">
+          
+          
+            
+              我的Git命令箱
+            
+          
+        </h1>
+      
+
+      <div class="post-meta">
+        <span class="post-time">
+          發表於 2013-11-04
+        </span>
+
+        
+
+        
+          
+            <span class="post-comments-count">
+            &nbsp; | &nbsp;
+            <a href="/2013/11/04/Git/我的Git命令箱/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2013/11/04/Git/我的Git命令箱/"></span>
+            </a>
+          </span>
+          
+        
+      </div>
+    </div>
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <h3 id="一-前戏">一.前戏</h3><h4 id="三种状态：">三种状态：</h4><ul>
+<li>modified 已修改</li>
+<li>staged 已暂存</li>
+<li>committed 已提交</li>
+</ul>
+<h4 id="三种工作区域：">三种工作区域：</h4><ul>
+<li>working directory 本地仓库</li>
+<li>staging directory 暂存仓库</li>
+<li>git directory git内部仓库</li>
+</ul>
+<h3 id="二-配置">二.配置</h3><ul>
+<li>git config —system user.email=feilunzhou@126.com  系统级别配置/etc/gitconfig</li>
+<li>git config —global user.name=“feilunzhou”  用户级别配置 ~/.gitconfig</li>
+<li>git config user.email=feilunzhou@126.com 仓库级别配置 .git/config</li>
+<li>git config —global alias.co checkout 配置别名</li>
+<li>git config —global alias.last ‘log -l HEAD’ 使用git last就可以查看最后一次提交信息了</li>
+<li>git config —list 查看配置信息</li>
+<li>git config -l 查看配置信息</li>
+<li>vim .gitignore</li>
+<li>gitignore工具： <a href="https://www.gitignore.io/" target="_blank" rel="external">https://www.gitignore.io/</a></li>
+<li>gitignore模版： <a href="https://github.com/github/gitignore" target="_blank" rel="external">https://github.com/github/gitignore</a></li>
+</ul>
+<h3 id="三-状态操作：">三.状态操作：</h3><ul>
+<li>git status</li>
+<li>git reflog 记录每一步命令history</li>
+<li>git show</li>
+</ul>
+<h3 id="四-本地提交">四.本地提交</h3><ul>
+<li>git init</li>
+<li>git init —bare</li>
+<li>git add .</li>
+<li>git commit -m “story”</li>
+<li>git commit -am “msg”</li>
+<li>git commit -a -m ‘made a chage’</li>
+<li>git commit -a 跳过暂存区提交，跳过git add步骤</li>
+<li>git commit —amend 修改最后一次提交，不产生一个新提交</li>
+<li>git status</li>
+<li>git diff</li>
+<li>git diff —cached</li>
+<li>git rm file.py</li>
+<li>git rm —cached readme.py</li>
+<li>git mv file_from file_to</li>
+</ul>
+<h3 id="五-历史操作">五.历史操作</h3><p>原则：版本控制就像是历史书，只记录历史，不应该抹掉历史。 </p>
+<ul>
+<li>tig</li>
+<li>git log</li>
+<li>git log -p -2</li>
+<li>git log —stat</li>
+<li>git log —pretty=oneline</li>
+<li>git log —pretty=format:”%h - %an, %ar : %s”</li>
+<li>git log —pretty=format:”%h %s” —graph</li>
+<li>git log —since=2.weeks</li>
+<li>git log —author=feilunzhou</li>
+<li>git reset HEAD file.txt 取消文件暂存（与git add互逆）</li>
+<li>git unstage <filename> 同git reset HEAD <filename></filename></filename></li>
+<li>git checkout —  <filename> 丢弃对文件的修改，恢复到此文件的上一个commit状态</filename></li>
+<li>git tag 列出所有标签</li>
+<li>git tag -l ‘v1.4.2.*’ 列出匹配的标签</li>
+<li>git tag -a v1.4 -m ‘my version msg‘创建一个含附注的标签</li>
+<li>git tag -s v1.5 -m ‘my signed 1.5 tag’创建签署标签</li>
+<li>git show v1.4察看标签的信息</li>
+<li>git tag v1.6-lw 创建轻量级标签（不能用-a -s -m）</li>
+<li>git push origin <tagname> 分享标签，git push不会把标签发送到server，需要显式指定</tagname></li>
+<li>git push origin —tags 推从所有本地标签到origin上</li>
+</ul>
+<h3 id="六-版本回退">六.版本回退</h3><ul>
+<li>git commit —amend</li>
+<li>git checkout — filenaem 丢弃修改</li>
+<li>git unstage filename 不加入监控</li>
+<li>git reset HEAD filename 不加入监控，如上</li>
+<li>git reset —hard HEAD^</li>
+<li>git reset —hard 3628164</li>
+<li>git revert HEAD</li>
+<li>git revert HEAD^</li>
+</ul>
+<h4 id="注意一下三中标识的区别">注意一下三中标识的区别</h4><ul>
+<li>HEAD@{3}这种是索引 git reflog中的记录，不是前三次提交</li>
+<li>HEAD^是指上上次提交</li>
+<li>HEAD~3是上三次提交。</li>
+</ul>
+<h4 id="分清楚以下三命令的区别：">分清楚以下三命令的区别：</h4><ul>
+<li>git reset 操作当前分支头（即HEAD指向的那个分之ref,也就是同时移动HEAD和master,然后根据参数重置index和工作区）</li>
+<li>git revert 回退到一个版本，它之后的内容返回到暂存区中</li>
+<li>git checkout （1,只移动HEAD，2.从某个地方导出文件到workingtree；或者后面跟文件名，将文件从版本库中移到工作目录）</li>
+<li>git stash</li>
+</ul>
+<h4 id="git_revert:（撤销，不丢失历史）">git revert:（撤销，不丢失历史）</h4><p>用一个新的提交会恢复到之前的一个状态。<br>revert后面接的事一个合并后的分支（有两个父亲），则需要用-m指定那个父亲。<br>git revert sha1 使用tig查看sha1值</p>
+<h4 id="git_reset:（重新设置HEAD和branch_ref）">git reset:（重新设置HEAD和branch ref）</h4><p>同时移动HEAD和HEAD指向的分支头<br>—soft 移动之后不改变index和workingtree的内容<br>—mixed(默认)移动之后改变index内容与HEAD相同，但是不改变workingtree内容<br>—hard 移动之后将index和workingtree的内容都设置为HEAD一样。</p>
+<p>git reset filename 将暂存区中的filename与HEAD的filename文件状态同步(指向同一个object)。<br>git reset HEAD filename 将暂存器中filename文件的状态与HEAD同步（指向同一个object）。</p>
+<p>git checkout:（拿出来放到workingtree）<br>从某个地方提出文件到workingtree（index 或者分支头或者sha1）<br>只影响workingtree和HEAD值<br>不会影响index的内容和状态</p>
+<p>git checkout — filename、git checkout — * 用index区的内容来替换workingtree的内容（并且将它unstage，就是git add的反操作）（workingtree中有，但是从类没有加入到版本中的文件，就自动ignore了，什么都不管）<br>git checkout branch_name 切换到某个分支，也就是用这个分支的内容来奇幻workingtree的内容<br>git checkout sha1 用某个sha1提交来替换当前的workingtree 这时候HEAD为detached状态。可以在这个点建立新分支</p>
+<h4 id="合并分支的回退：">合并分支的回退：</h4><p>git reflog来进行。<br>git reset [sha1]来进行，可通过tig来获知sha1值</p>
+<h3 id="七-分支相关：">七.分支相关：</h3><ul>
+<li>git branch -a 列出所有分支(本地+远端)</li>
+<li>git branch 列出本地分支、表明所在分支</li>
+<li>git branch -v 列出分支详情（分支名，commit sha1, latest commit msg）</li>
+<li>git branch —merged 查看哪些分支已经被并入当前分支</li>
+<li>git branch —no-merged察看哪些分支没有被并入当前分支</li>
+<li>git checkout -b <bname> 以当前所在的最新提交新建分支，名为<bname>,并切换到<bname>分支</bname></bname></bname></li>
+<li>git branch <bname> 以当前所在的最新提交新建分支，名为<bname></bname></bname></li>
+<li>git branch -d <bname> 删除<bname>分支</bname></bname></li>
+<li>git checkout 切克闹！ dev 切换到dev分支</li>
+<li>git merge <bname> 将<bname>分支与当前分支合并，并产生一个提交，可能发生冲突，</bname></bname></li>
+</ul>
+<h4 id="远端分支相关">远端分支相关</h4><ul>
+<li>git merge origin/serverfix 将fetch下来的远端分支合并到当前分支</li>
+<li>git checkout -b serverfix origin/serverfix 新建一个分支在fetch下来的分之上</li>
+<li>git mergetool</li>
+<li>git fetch origin branch1 &amp;&amp; git merge origin/branch1</li>
+<li>git checkout -b branch1 origin/branch1  （跟踪分支）</li>
+<li>= git checkout —track origin/branch1 </li>
+<li>=git checkout -b <newlocalname> origin/branch1</newlocalname></li>
+<li>git branch branch1 origin/branch1</li>
+<li>git push origin :serverBranch 删除远端originBranch</li>
+<li>git rebase 衍合（分支整合有两种方式：merge和rebase）（为造成一个等价的线性的进化版本）</li>
+</ul>
+<p>分支的衍合： <a href="http://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E8%A1%8D%E5%90%88" target="_blank" rel="external">http://git-scm.com/book/zh/v1/Git-%E5%88%86%E6%94%AF-%E5%88%86%E6%94%AF%E7%9A%84%E8%A1%8D%E5%90%88</a></p>
+<h3 id="八-远端交互：">八.远端交互：</h3><ul>
+<li>git clone git://github.com/apc.git</li>
+<li>git clone git@github.com/repo.git</li>
+<li>git clone file:///absolute/path/to/local/repo</li>
+<li>git remote -v/ —verbose 本仓库配置的有哪些远端仓库</li>
+<li>git remote add dev git://github.com/repo.git</li>
+<li>git remote show <remotename 例如origin=""> 显示远端仓库信息</remotename></li>
+<li>git remote rename <remotename> <newremotename> 修改远端地址别名</newremotename></remotename></li>
+<li>git remote rm <remotename> 删除远端地址</remotename></li>
+<li>git pull <origin> <master> = git fetch <origin> <master> + git merge <origin> <master></master></origin></master></origin></master></origin></li>
+<li>git push <origin> <master> 将当前内容同步到远端，如果远端没有这个分支，且对远端有写权限，在远端创建改分支。</master></origin></li>
+<li>git push <origin> <branch1:branch2> push到远端不同名的分支。</branch1:branch2></origin></li>
+<li>git push origin <tagname> 分享标签，git push不会把标签发送到server，需要显式指定</tagname></li>
+<li>git push origin —tags 推从所有本地标签到origin上</li>
+<li>git push —all 推送所有的refs</li>
+<li>git fetch 默认为git fetch origin</li>
+<li>git fetch <name> 这里的name是git remote add <name> 进去的，去远端同步，更新本地origin/master到最新位置</name></name></li>
+<li>git fetch origin branch1 &amp;&amp; git merge origin/branch1</li>
+<li>git checkout -b branch1 origin/branch1 </li>
+<li>= git checkout —track origin/branch1 （跟踪分支，会在本地创建同名分支）</li>
+<li>=git checkout -b <newlocalname> origin/branch1</newlocalname></li>
+<li>git branch branch1 origin/branch1</li>
+<li>git push origin :serverBranch 删除远端originBranch</li>
+<li>git rebase</li>
+</ul>
+<p>pull和push都可理解为两个过程的合操作，操作对象为两个分支。</p>
+<h3 id="九-Git服务器">九.Git服务器</h3><h4 id="协议：">协议：</h4><ul>
+<li>file:///abs/path/to/repo</li>
+<li>git://</li>
+<li>ssh:</li>
+<li>http:</li>
+<li>https:</li>
+</ul>
+
+      
+    </div>
+
+    <div class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/git/"> #git </a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/11/07/Git/Git工作流总结/">Git工作流总结</a>
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2012/07/04/hello-world/">Hello World</a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </div>
+  </div>
+
+
+
+    
+
+    
+      <div class="comments" id="comments">
+        
+          <div class="ds-thread" data-thread-key="2013/11/04/Git/我的Git命令箱/"
+               data-title="我的Git命令箱" data-url="http://yoursite.com/2013/11/04/Git/我的Git命令箱/">
+          </div>
+        
+      </div>
+    
+  </div>
+
+
+        </div>
+
+        
+      </div>
+
+
+      
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目錄
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            本站概覽
+          </li>
+        </ul>
+      
+
+      <div class="site-overview">
+        <div class="site-author motion-element">
+          <img class="site-author-image" src="https://avatars3.githubusercontent.com/u/4932234" alt="Fei Lunzhou" />
+          <p class="site-author-name">Fei Lunzhou</p>
+        </div>
+        <p class="site-description motion-element"></p>
+        <div class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">23</span>
+              <span class="site-state-item-name">文章</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分類</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">標籤</span>
+              </a>
+          </div>
+
+        </div>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+              <a href="https://github.com/universefei" target="_blank">github</a>
+            </span>
+            
+              <span class="links-of-author-item">
+              <a href="http://weibo.com/" target="_blank">weibo</a>
+            </span>
+            
+          
+        </div>
+
+        
+        
+
+      </div>
+
+      
+        <div class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一-前戏"><span class="nav-number">1.</span> <span class="nav-text">一.前戏</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#三种状态："><span class="nav-number">1.1.</span> <span class="nav-text">三种状态：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三种工作区域："><span class="nav-number">1.2.</span> <span class="nav-text">三种工作区域：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二-配置"><span class="nav-number">2.</span> <span class="nav-text">二.配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三-状态操作："><span class="nav-number">3.</span> <span class="nav-text">三.状态操作：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#四-本地提交"><span class="nav-number">4.</span> <span class="nav-text">四.本地提交</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#五-历史操作"><span class="nav-number">5.</span> <span class="nav-text">五.历史操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#六-版本回退"><span class="nav-number">6.</span> <span class="nav-text">六.版本回退</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#注意一下三中标识的区别"><span class="nav-number">6.1.</span> <span class="nav-text">注意一下三中标识的区别</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#分清楚以下三命令的区别："><span class="nav-number">6.2.</span> <span class="nav-text">分清楚以下三命令的区别：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#git_revert:（撤销，不丢失历史）"><span class="nav-number">6.3.</span> <span class="nav-text">git revert:（撤销，不丢失历史）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#git_reset:（重新设置HEAD和branch_ref）"><span class="nav-number">6.4.</span> <span class="nav-text">git reset:（重新设置HEAD和branch ref）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#合并分支的回退："><span class="nav-number">6.5.</span> <span class="nav-text">合并分支的回退：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#七-分支相关："><span class="nav-number">7.</span> <span class="nav-text">七.分支相关：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#远端分支相关"><span class="nav-number">7.1.</span> <span class="nav-text">远端分支相关</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#八-远端交互："><span class="nav-number">8.</span> <span class="nav-text">八.远端交互：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#九-Git服务器"><span class="nav-number">9.</span> <span class="nav-text">九.Git服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#协议："><span class="nav-number">9.1.</span> <span class="nav-text">协议：</span></a></li></ol></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </div>
+      
+
+    </div>
+  </div>
+
+
+    </div>
+
+    <div id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">
+  
+  &copy; &nbsp; 
+  2015
+  <span class="with-love">
+    <i class="icon-heart"></i>
+  </span>
+  <span class="author">Fei Lunzhou</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 強力驅動
+</div>
+
+<div class="theme-info">
+  主題 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT
+  </a>
+</div>
+
+
+
+      </div>
+    </div>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.3"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.3"></script>
+  
+
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+  <script type="text/javascript" src="/js/motion_global.js?v=0.4.3" id="motion.global"></script>
+
+
+
+  <script type="text/javascript" src="/js/search-toggle.js"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.3" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var $sidebarInner = $('.sidebar-inner');
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.didShow', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+          var self = this;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      $(indicator).velocity('stop').velocity({
+        opacity: action === 'show' ? 0.4 : 0
+      }, { duration: 100 });
+    }
+
+  });
+</script>
+
+
+  <script type="text/javascript" id="sidebar.nav">
+    $(document).ready(function () {
+      var html = $('html');
+
+      $('.sidebar-nav li').on('click', function () {
+        var item = $(this);
+        var activeTabClassName = 'sidebar-nav-active';
+        var activePanelClassName = 'sidebar-panel-active';
+        if (item.hasClass(activeTabClassName)) {
+          return;
+        }
+
+        var currentTarget = $('.' + activePanelClassName);
+        var target = $('.' + item.data('target'));
+
+        currentTarget.velocity('transition.slideUpOut', 200, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', 200)
+            .addClass(activePanelClassName);
+        });
+
+        item.siblings().removeClass(activeTabClassName);
+        item.addClass(activeTabClassName);
+      });
+
+      $('.post-toc a').on('click', function (e) {
+        e.preventDefault();
+        var offset = $(escapeSelector(this.getAttribute('href'))).offset().top;
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        });
+      });
+
+      // Expand sidebar on post detail page by default, when post has a toc.
+      var $tocContent = $('.post-toc-content');
+      if (isDesktop() && CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    });
+  </script>
+
+
+
+
+  <script type="text/javascript">
+    $(document).ready(function () {
+      if (CONFIG.sidebar === 'always') {
+        displaySidebar();
+      }
+    });
+  </script>
+
+  
+
+  
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"feilunzhou"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+
+
+  
+  
+
+</body>
+</html>
