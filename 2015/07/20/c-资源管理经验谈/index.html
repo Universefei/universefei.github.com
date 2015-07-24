@@ -20,7 +20,7 @@
 
 
 
-  <meta name="keywords" content="git," />
+  <meta name="keywords" content="Hexo,next" />
 
 
 
@@ -43,7 +43,7 @@
 
 
 
-  <title> Git工作流总结 // Fei Lunzhou </title>
+  <title> c++资源管理经验谈 // Fei Lunzhou </title>
 </head>
 
 <body>
@@ -138,7 +138,7 @@
           
           
             
-              Git工作流总结
+              c++资源管理经验谈
             
           
         </h1>
@@ -146,7 +146,7 @@
 
       <div class="post-meta">
         <span class="post-time">
-          發表於 2013-11-07
+          發表於 2015-07-20
         </span>
 
         
@@ -155,8 +155,8 @@
           
             <span class="post-comments-count">
             &nbsp; | &nbsp;
-            <a href="/2013/11/07/Git/Git工作流总结/#comments" >
-              <span class="post-comments-count ds-thread-count" data-thread-key="2013/11/07/Git/Git工作流总结/"></span>
+            <a href="/2015/07/20/c-资源管理经验谈/#comments" >
+              <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/20/c-资源管理经验谈/"></span>
             </a>
           </span>
           
@@ -170,40 +170,51 @@
       
 
       
-        <h2 id="一-综述">一.综述</h2><h2 id="二-分布式版本控制GIT工作流">二.分布式版本控制GIT工作流</h2><h3 id="场景1：">场景1：</h3><p>oy需要在办公室（保密局域网）内多台机器上协作开发，还需要将代码和我们实验室邵孔东协作开发，但是邵孔东不能连接到oy办公室。</p>
-<p>1.在办公室建立中央集中式git服务器（解决局域网内的代码协作开发）<br>2.oy与邵孔东使用本地或者SSH协议实现在实验室的代码协作开发</p>
-<p>oy办公室为代码一级中心，oy代码向中心提交<br>oy来我们实验室之后，作为中心，邵孔东代码向oy代码库提交<br>邵孔东走如下操作：<br>oy在master分支上开发，此时可以新建一个host分支来专门用户和邵孔东合并用,这个host应该为邵孔东的upstream分支。</p>
-<h4 id="Solution:">Solution:</h4><p>OY：<br>git branch host</p>
-<p>SKD:<br>git add . &amp;&amp; git commit -m “local snapshot”<br>git remote add oy ssh://oy@oy_host_ip:related_to_oy_home/repo/.git<br>git fetch oy host （将远端的信息和数据拿回来，通过这条命令git才有了oy/host这个变量）（注意 不是 oy/host，远端交互都是两个参数，本地分支操作室用/连起来的一个参数）<br>git branch oy_host -t oy/host(建立本地分支跟踪刚拿回来的oy的主分支)<br>git checkout master<br>git merge oy_host（将那会儿来的分支与自己合并）<br>有冲突则解决冲突，没有冲突则做版本并提交到oy/host分支<br>git push oy master:host</p>
-<p>或者<br>git remote add oy…<br>git fetch oy host<br>git checkout oy/host<br>git checkout -b oy_host<br>…</p>
-<p>OY:<br>git checkout master<br>git merge host</p>
-<p>oy的repo作为邵孔东的remote节点,当邵孔东要想oy的repo/.git的master分支 push的时候，oy的master复制必须不是checkout状态，也就是当前分支不能使master。解决方法有两种：<br>远端仓库为bare仓库，即只有.git的内容，没有workingtree<br>git checkout -b idel新建一个空闲分支，checkout出来，将master分支空闲出来。<br>比如以下：将本地的u_track_fei_master<br>再次提交成功</p>
-<h3 id="场景2：">场景2：</h3><p>oy的repo作为邵孔东的remote节点,当邵孔东要想oy的repo/.git的master分支 push的时候，oy的master复制必须不是checkout状态，也就是当前分支不能使master。解决方法有两种：<br>远端仓库为bare仓库，即只有.git的内容，没有workingtree<br>git checkout -b idel新建一个空闲分支，checkout出来，将master分支空闲出来。</p>
-<h4 id="Solution:-1">Solution:</h4><p>oy的repo作为邵孔东的remote节点,当邵孔东要想oy的repo/.git的master分支 push的时候，oy的master复制必须不是checkout状态，也就是当前分支不能使master。解决方法有两种：<br>远端仓库为bare仓库，即只有.git的内容，没有workingtree<br>git checkout -b idel新建一个空闲分支，checkout出来，将master分支空闲出来。</p>
+        <h3 id="前言">前言</h3><p>编写中…</p>
+<h3 id="Step1:_用对象管理资源">Step1: 用对象管理资源</h3><h3 id="Step2:_RAII原则来申请和释放资源">Step2: RAII原则来申请和释放资源</h3><ul>
+<li>在构造的时候申请资源，在析构的时候释放资源</li>
+</ul>
+<h3 id="Step3:_管理好对象的生命周期">Step3: 管理好对象的生命周期</h3><p>管理好对象的生命周期，对于单线程环境来说比较好办，注意几点就行了，但是对于多线程环境就比较难处理了。</p>
+<h4 id="构造">构造</h4><ul>
+<li>不要在构造函数中暴露this指针，典型的不要调用观察者或者访问者接口，因为这个时候对象还没有构造完，不应该被调用</li>
+</ul>
+<h4 id="析构">析构</h4><ul>
+<li>不要在析构函数中抛出异常,异常会改变程序执行的顺序。</li>
+<li>父类析构函数应该定义为virtual,否则子类独有的资源不会被释放.</li>
+</ul>
+<h4 id="赋值">赋值</h4><p>首先回顾一下赋值操作符的四个要点：</p>
+<ul>
+<li>检查是否为同一个地址<code>if(this == &amp;rhs) return *this</code></li>
+<li>参数为类型的常引用<code>const Feature&amp; rhs</code></li>
+<li>返回为<code>*this</code></li>
+<li>在分配资源之前先回收清理原有的资源</li>
+</ul>
+<h4 id="拷贝构造">拷贝构造</h4><h3 id="关于内存管理">关于内存管理</h3><p>C++中可能出现的内存问题:</p>
+<ul>
+<li>缓冲区溢出</li>
+<li>空悬指针/野指针</li>
+<li>重复释放</li>
+<li>内存泄漏</li>
+<li>不配对的new/delete</li>
+<li>内存碎片</li>
+</ul>
+<h3 id="关于链接管理">关于链接管理</h3><p>SVDE中的连接</p>
 
       
     </div>
 
     <div class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/git/"> #git </a>
-          
-        </div>
-      
 
       
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2013/11/13/Git/Git内部原理/">Git内部原理</a>
-            
           </div>
 
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2013/11/04/Git/我的Git命令箱/">我的Git命令箱</a>
+              <a href="/2015/05/15/数据库存储管理/">数据库存储管理</a>
             
           </div>
         </div>
@@ -221,8 +232,8 @@
     
       <div class="comments" id="comments">
         
-          <div class="ds-thread" data-thread-key="2013/11/07/Git/Git工作流总结/"
-               data-title="Git工作流总结" data-url="http://yoursite.com/2013/11/07/Git/Git工作流总结/">
+          <div class="ds-thread" data-thread-key="2015/07/20/c-资源管理经验谈/"
+               data-title="c++资源管理经验谈" data-url="http://yoursite.com/2015/07/20/c-资源管理经验谈/">
           </div>
         
       </div>
@@ -317,7 +328,7 @@
           <div class="post-toc">
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-综述"><span class="nav-number">1.</span> <span class="nav-text">一.综述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-分布式版本控制GIT工作流"><span class="nav-number">2.</span> <span class="nav-text">二.分布式版本控制GIT工作流</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#场景1："><span class="nav-number">2.1.</span> <span class="nav-text">场景1：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Solution:"><span class="nav-number">2.1.1.</span> <span class="nav-text">Solution:</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#场景2："><span class="nav-number">2.2.</span> <span class="nav-text">场景2：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Solution:-1"><span class="nav-number">2.2.1.</span> <span class="nav-text">Solution:</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step1:_用对象管理资源"><span class="nav-number">2.</span> <span class="nav-text">Step1: 用对象管理资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step2:_RAII原则来申请和释放资源"><span class="nav-number">3.</span> <span class="nav-text">Step2: RAII原则来申请和释放资源</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Step3:_管理好对象的生命周期"><span class="nav-number">4.</span> <span class="nav-text">Step3: 管理好对象的生命周期</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#构造"><span class="nav-number">4.1.</span> <span class="nav-text">构造</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#析构"><span class="nav-number">4.2.</span> <span class="nav-text">析构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#赋值"><span class="nav-number">4.3.</span> <span class="nav-text">赋值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#拷贝构造"><span class="nav-number">4.4.</span> <span class="nav-text">拷贝构造</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于内存管理"><span class="nav-number">5.</span> <span class="nav-text">关于内存管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关于链接管理"><span class="nav-number">6.</span> <span class="nav-text">关于链接管理</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>

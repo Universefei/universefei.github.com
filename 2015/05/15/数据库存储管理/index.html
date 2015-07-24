@@ -170,7 +170,39 @@
       
 
       
-        
+        <h3 id="前言">前言</h3><p>本文首先总结一下大神级论文《Architecture of database system》中关于存储管理的介绍。因为我用PostgreSQL比较多一点，查了一些资料，之后介绍一下PostgreSQL的存储管理方面的内容。</p>
+<h3 id="Joseph_M_讲存储管理">Joseph M 讲存储管理</h3><p>在“Architecture of Database System”中，Joseph介绍说在如今的商业DBMS中，主要有两种基本类型的DBMS存储管理器：</p>
+<ul>
+<li>DBMS直接与底层的面向磁盘的块模式设备驱动程序进行交互（又称为原始模式访问）</li>
+<li>DBMS使用标准的OS文件系统设施</li>
+</ul>
+<p>以上两中存储管理的不同会从空间和时间上同时影响DBMS控制存储的能力：</p>
+<ul>
+<li>空间：数据在物理磁盘上的位置</li>
+<li>时间：什么时候被物理的写到磁盘</li>
+</ul>
+<h4 id="空间控制_(磁盘,_外存)">空间控制 (磁盘, 外存)</h4><p>从磁盘中读取和写入数据时，顺序读写带宽要比随机读写带宽快10到100倍，并且这个差距还在增加。因此，对于DBMS存储管理器来说，如何把数据块放置在磁盘上就显得尤其重要，从而使得需要访问大量数据的查询可以顺序地访问磁盘。</p>
+<h5 id="原始访问模式">原始访问模式</h5><p>DBMS控制局部性最好的方式，就是将数据直接存储到“原始”磁盘设备中，完全绕过文件系统。这种方法可行，但是有一些缺点：</p>
+<ul>
+<li>它需要数据库管理员将整个磁盘分区都分配给数据库管理系统。</li>
+<li>“原始磁盘”的访问接口往往是与特定操作系统相关，这使得DBMS的可移植性变的很差。</li>
+</ul>
+<h5 id="文件系统访问">文件系统访问</h5><p>原始磁盘访问的一种替代方式是，由DBMS在操作系统的文件管理系统中创建一个非常大的文件，然后采用数据在文件中的地址偏移量来定位数据。<br>在大多数流行的文件系统中，如果你分配一个非常大的文件到一个空磁盘上，文件中的地址将会和存储位置的物理临近性非常吻合。因此，这是一个原始磁盘访问的很好的金丝方法，而不需要直接访问原始设备借口。</p>
+<h5 id="性能比较">性能比较</h5><p>运行TPC-C测试基准时候，文件系统访问相交于原始访问只有6%性能降低，而对于较少包含密集IO的工作负载而言，几乎没有负面影响。DB2网上的一份测试报告现实，当使用直接IO(DIO)和它的变种并发IO(CIO)时，文件系统开销可以降低至1%。因此，数据库管理系统厂商通常不再推荐原始数据存储，而且很少用户会使用这种配置。</p>
+<h4 id="时间控制_(缓冲,内存)">时间控制 (缓冲,内存)</h4><p>一个DBMS还必须控制数据什么时候被物理地写到磁盘中,DBMS中包含了关键的逻辑程序，它可以判断什么时候把数据写入磁盘。大多数操作系统的文件系统还提供内置的IO缓冲机制，来决定何时读取和写入文件块。<br>如果DBMS在执行写操作时使用标准的文件系统借口，操作系统缓冲机制将会打乱DBMS逻辑程序的意图，因为，操作系统缓冲机制会悄悄地推迟DBMS写操作或者重新排序写操作。不能保证对磁盘写操作的时间的显示控制，这可能带来一下问题：</p>
+<ul>
+<li>数据库ACID事务承诺的正确性 (不能保证WAL已经写入到磁盘)</li>
+<li>性能（文件系统基于物理位置局部性的“预读取”和“后写入”不适合DBMS,DBMS使用比如B树叶子节点的索引局部性，不一定是聚集索引，所以不一定物理相邻）</li>
+<li>双缓冲和内存拷贝的昂贵CPU开销 (文件系统到RDBMS缓冲的拷贝, 可以使用POSIX mmap或特定平台的DIO和CIO来避免对文件的双缓冲)</li>
+</ul>
+<h5 id="缓冲管理">缓冲管理</h5><p>为了提供对数据库页面的有效访问，每个数据库管理系统会在自己的内存空间中实现一个大型共享缓冲池。<br>缓冲池会被组织成一个帧数组，其中，每一帧是内存中的一段区域，帧的大小是数据库磁盘块的大小。块从磁盘直接复制到缓冲池中，不会发生格式的变化，在内存中也是以这种原生的格式进行修改操作，然后，写回到磁盘。</p>
+<p>和缓冲池中的帧数相关联的是一个哈希表，它会对以下内容进行哈希映射：</p>
+<ul>
+<li>把内存中当前的页面编号映射到它们在帧表中的位置</li>
+<li>页面在备份磁盘存储中的位置</li>
+<li>关于该页面的一些元数据（脏标记位：标识从磁盘读出来之后是否发生改变；页面替换策略所需要的信息；引脚计数器）</li>
+</ul>
+<h3 id="PostgreSQL_存储管理">PostgreSQL 存储管理</h3>
       
     </div>
 
@@ -180,6 +212,8 @@
       
         <div class="post-nav">
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/07/20/c-资源管理经验谈/">c++资源管理经验谈</a>
             
           </div>
 
@@ -251,7 +285,7 @@
         <div class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">23</span>
+              <span class="site-state-item-count">24</span>
               <span class="site-state-item-name">文章</span>
             </a>
           </div>
@@ -299,7 +333,7 @@
           <div class="post-toc">
             
             
-              <p class="post-toc-empty">此文章未包含目錄</p>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Joseph_M_讲存储管理"><span class="nav-number">2.</span> <span class="nav-text">Joseph M 讲存储管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#空间控制_(磁盘,_外存)"><span class="nav-number">2.1.</span> <span class="nav-text">空间控制 (磁盘, 外存)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#原始访问模式"><span class="nav-number">2.1.1.</span> <span class="nav-text">原始访问模式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#文件系统访问"><span class="nav-number">2.1.2.</span> <span class="nav-text">文件系统访问</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#性能比较"><span class="nav-number">2.1.3.</span> <span class="nav-text">性能比较</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#时间控制_(缓冲,内存)"><span class="nav-number">2.2.</span> <span class="nav-text">时间控制 (缓冲,内存)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#缓冲管理"><span class="nav-number">2.2.1.</span> <span class="nav-text">缓冲管理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PostgreSQL_存储管理"><span class="nav-number">3.</span> <span class="nav-text">PostgreSQL 存储管理</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator"></div>
