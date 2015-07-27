@@ -5,7 +5,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com//"/>
-  <updated>2015-07-26T14:24:22.000Z</updated>
+  <updated>2015-07-26T16:45:37.000Z</updated>
   <id>http://yoursite.com//</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://yoursite.com/2015/07/26/%E8%B0%88%E8%B0%88DevOps%E5%92%8C%E8%99%9A%E6%8B%9F%E5%8C%96/"/>
     <id>http://yoursite.com/2015/07/26/谈谈DevOps和虚拟化/</id>
     <published>2015-07-26T09:40:42.000Z</published>
-    <updated>2015-07-26T14:24:22.000Z</updated>
+    <updated>2015-07-26T16:45:37.000Z</updated>
     <content type="html"><![CDATA[<p>其实DevOps和虚拟化并没有多大关系，为什么要把这两个东西放在一起呢？如果有人跟我突兀的讲这两个词，我会联想到docker。其实也就是因为docker才有了这篇文章。此文只是简单的介绍，以后会抽出时间专门来分别介绍虚拟化技术、DevOps还有Docker。</p>
 <h3 id="背景">背景</h3><p>因为需要在内网中搭建一个私有云，一方面是提高硬件的利用率，另外提高系统的可用性和伸缩性。如今有很多云平台可用，但是由于某些安全原因，我们不能使用开放的平台。之前是在几台bare metal上安装了Citrix xen server,使用一个Windows机器上安装xen Center来连接Xen server安装了一些CentOS6.4，之后在这些CentOS上使用Anbari部署Hadoop集群，用来处理的大量的GIS数据。然后有一天Hadoop的master节点无故宕机了，导致整个Hadoop集群就不可用了。老大想探索新方法来增强系统的可用性，另外的要求是系统宕了之后，如果可能，能够迅速的切换到其他的环境下，部署并运行，而不需要在部署Hadoop好之后才能重新运行集群。</p>
 <p>总结起来就提出了以下几个要求：</p>
@@ -146,7 +146,11 @@
 <h3]]>
     </summary>
     
-      <category term="docker virtualization" scheme="http://yoursite.com/tags/docker-virtualization/"/>
+      <category term="docker" scheme="http://yoursite.com/tags/docker/"/>
+    
+      <category term="virtualization" scheme="http://yoursite.com/tags/virtualization/"/>
+    
+      <category term="Tech" scheme="http://yoursite.com/categories/Tech/"/>
     
   </entry>
   
@@ -155,7 +159,7 @@
     <link href="http://yoursite.com/2015/07/20/c-%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%BB%8F%E9%AA%8C%E8%B0%88/"/>
     <id>http://yoursite.com/2015/07/20/c-资源管理经验谈/</id>
     <published>2015-07-19T17:47:32.000Z</published>
-    <updated>2015-07-23T18:10:10.000Z</updated>
+    <updated>2015-07-26T16:32:47.000Z</updated>
     <content type="html"><![CDATA[<h3 id="前言">前言</h3><p>编写中…</p>
 <h3 id="Step1:_用对象管理资源">Step1: 用对象管理资源</h3><h3 id="Step2:_RAII原则来申请和释放资源">Step2: RAII原则来申请和释放资源</h3><ul>
 <li>在构造的时候申请资源，在析构的时候释放资源</li>
@@ -192,6 +196,8 @@
 <li>]]>
     </summary>
     
+      <category term="c++" scheme="http://yoursite.com/tags/c/"/>
+    
   </entry>
   
   <entry>
@@ -199,7 +205,7 @@
     <link href="http://yoursite.com/2015/05/15/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AD%98%E5%82%A8%E7%AE%A1%E7%90%86/"/>
     <id>http://yoursite.com/2015/05/15/数据库存储管理/</id>
     <published>2015-05-15T08:46:56.000Z</published>
-    <updated>2015-07-23T17:41:03.000Z</updated>
+    <updated>2015-07-26T16:33:11.000Z</updated>
     <content type="html"><![CDATA[<h3 id="前言">前言</h3><p>本文首先总结一下大神级论文《Architecture of database system》中关于存储管理的介绍。因为我用PostgreSQL比较多一点，查了一些资料，之后介绍一下PostgreSQL的存储管理方面的内容。</p>
 <h3 id="Joseph_M_讲存储管理">Joseph M 讲存储管理</h3><p>在“Architecture of Database System”中，Joseph介绍说在如今的商业DBMS中，主要有两种基本类型的DBMS存储管理器：</p>
 <ul>
@@ -238,6 +244,8 @@
 <h]]>
     </summary>
     
+      <category term="database" scheme="http://yoursite.com/tags/database/"/>
+    
   </entry>
   
   <entry>
@@ -245,7 +253,7 @@
     <link href="http://yoursite.com/2015/03/14/GIS/%E7%94%A8PL-pgSQL%E5%AF%B9osm%E6%95%B0%E6%8D%AE%E8%BF%9B%E8%A1%8C%E7%9F%A2%E9%87%8F%E5%88%86%E7%BA%A7/"/>
     <id>http://yoursite.com/2015/03/14/GIS/用PL-pgSQL对osm数据进行矢量分级/</id>
     <published>2015-03-14T01:45:06.000Z</published>
-    <updated>2015-07-23T18:19:28.000Z</updated>
+    <updated>2015-07-26T16:46:33.000Z</updated>
     <content type="html"><![CDATA[<h3 id="执行总流程介绍">执行总流程介绍</h3><p>Perform-sql-updates.sql是总执行脚本</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="shebang">#!/bin/bash</span><br><span class="line"></span></span><br><span class="line"><span class="comment"># subsequent sql depends on functions installed</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"Creating functions..."</span></span><br><span class="line">psql <span class="variable">$@</span> <span class="operator">-f</span> functions.sql</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"done."</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># apply updates in parallel across tables</span></span><br><span class="line"><span class="built_in">echo</span> <span class="operator">-e</span> <span class="string">"\nApplying updates in parallel across tables..."</span></span><br><span class="line">psql <span class="variable">$@</span> <span class="operator">-f</span> apply-updates-non-planet-tables.sql &amp;</span><br><span class="line">psql <span class="variable">$@</span> <span class="operator">-f</span> apply-planet_osm_polygon.sql &amp;</span><br><span class="line">psql <span class="variable">$@</span> <span class="operator">-f</span> apply-planet_osm_line.sql &amp;</span><br><span class="line">psql <span class="variable">$@</span> <span class="operator">-f</span> apply-planet_osm_point.sql &amp;</span><br><span class="line"><span class="built_in">wait</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"done."</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="operator">-e</span> <span class="string">'\nApplying triggers...'</span></span><br><span class="line">psql <span class="variable">$@</span> <span class="operator">-f</span> triggers.sql</span><br><span class="line"><span class="built_in">echo</span> <span class="string">'done.'</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="operator">-e</span> <span class="string">"\nAll updates complete. Exiting."</span></span><br></pre></td></tr></table></figure>
 <p>这是总的执行脚本，干了一下几件事：</p>
@@ -279,6 +287,10 @@
     
       <category term="gis" scheme="http://yoursite.com/tags/gis/"/>
     
+      <category term="osm" scheme="http://yoursite.com/tags/osm/"/>
+    
+      <category term="sql" scheme="http://yoursite.com/tags/sql/"/>
+    
   </entry>
   
   <entry>
@@ -286,7 +298,7 @@
     <link href="http://yoursite.com/2015/02/27/GIS/%E7%94%A8python%E5%86%99%E4%B8%80%E4%B8%AAosm2rdbms%E5%AF%BC%E5%85%A5%E5%B7%A5%E5%85%B7/"/>
     <id>http://yoursite.com/2015/02/27/GIS/用python写一个osm2rdbms导入工具/</id>
     <published>2015-02-27T12:49:23.000Z</published>
-    <updated>2015-07-15T17:39:39.000Z</updated>
+    <updated>2015-07-26T16:46:45.000Z</updated>
     <content type="html"><![CDATA[<h3 id="代码">代码</h3><p>首先贴出代码:</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> osgeo <span class="keyword">import</span> ogr</span><br><span class="line"><span class="keyword">import</span> pyodbc</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    src_conn_info = <span class="string">"../shape_eg_data/pline.shp"</span></span><br><span class="line">    dst_conn_info = <span class="string">"DSN=svde;SERVER=127.0.0.1;TCP_PORT=5236;UID=SYSDBA;PWD=SYSDBA;"</span></span><br><span class="line"></span><br><span class="line">    ogr_dm_type_mapping = &#123;</span><br><span class="line">            <span class="string">'0'</span> : <span class="string">'integer'</span>,</span><br><span class="line">            <span class="string">'1'</span> : <span class="string">'double'</span>,</span><br><span class="line">            <span class="string">'2'</span> : <span class="string">'varchar'</span>,</span><br><span class="line">            <span class="string">'3'</span> : <span class="string">'varchar'</span>,</span><br><span class="line">            <span class="string">'4'</span> : <span class="string">'varchar'</span>,</span><br><span class="line">            <span class="string">'5'</span> : <span class="string">'varchar'</span>,</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">    ogr_geom_type_mapping = &#123;</span><br><span class="line">            <span class="string">'0'</span> : <span class="string">'Point'</span>,</span><br><span class="line">            <span class="string">'1'</span> : <span class="string">'LineString'</span>,</span><br><span class="line">            <span class="string">'2'</span> : <span class="string">'Polygon'</span>,</span><br><span class="line">            <span class="string">'3'</span> : <span class="string">'MultiPoint'</span>,</span><br><span class="line">            <span class="string">'4'</span> : <span class="string">'MultiLineString'</span>,</span><br><span class="line">            <span class="string">'5'</span> : <span class="string">'MultiPolygon'</span>,</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">    dm_conn = pyodbc.connect(dst_conn_info)</span><br><span class="line">    cursor = dm_conn.cursor()</span><br><span class="line"></span><br><span class="line">    <span class="comment"># Ensure metadata talbes exsits</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        cursor.execute(<span class="string">"""select 1 from svde_metadata"""</span>)</span><br><span class="line">    <span class="keyword">except</span> pyodbc.ProgrammingError:</span><br><span class="line">        cursor.execute(<span class="string">"""create table svde_metadata(</span><br><span class="line">                        table_name varchar primary key,</span><br><span class="line">                        geom_column_name varchar not null,</span><br><span class="line">                        geom_type varchar,</span><br><span class="line">                        geom_dimension varchar,</span><br><span class="line">                        geom_srid varchar)"""</span>)</span><br><span class="line">        cursor.execute(<span class="string">"""create table svde_srs(</span><br><span class="line">                        srid varchar primary key,</span><br><span class="line">                        auth_name varchar,</span><br><span class="line">                        auth_srid varchar,</span><br><span class="line">                        srtext varchar not null,</span><br><span class="line">                        proj4text varchar)"""</span>)</span><br><span class="line">        cursor.execute(<span class="string">"""create table svde_column_defn(</span><br><span class="line">                        cid varchar,</span><br><span class="line">                        table_name varchar not null,</span><br><span class="line">                        column_name varchar not null,</span><br><span class="line">                        column_type varchar not null,</span><br><span class="line">                        primary key (table_name, column_name))"""</span>)</span><br><span class="line">        cursor.commit()</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"metadata tables already exists in database!"</span></span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Create table for shapefile layer</span></span><br><span class="line"></span><br><span class="line">    ds = ogr.Open(src_conn_info)</span><br><span class="line">    layer = ds.GetLayer()</span><br><span class="line">    layer_defn = layer.GetLayerDefn()</span><br><span class="line">    field_count = layer_defn.GetFieldCount()</span><br><span class="line"></span><br><span class="line">    fields_type_dict = &#123;&#125;</span><br><span class="line">    fields_defn_serial = <span class="string">""</span></span><br><span class="line">    fields_comma_serial = <span class="string">""</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, field_count-<span class="number">1</span>):</span><br><span class="line">        field_name = layer_defn.GetFieldDefn(i).GetName()</span><br><span class="line">        field_type = layer_defn.GetFieldDefn(i).GetType()</span><br><span class="line">        fields_type_dict[field_name] = ogr_dm_type_mapping[str(field_type)]</span><br><span class="line">        fields_defn_serial += field_name + <span class="string">' '</span> + ogr_dm_type_mapping[str(field_type)] + <span class="string">','</span></span><br><span class="line">        fields_comma_serial += field_name + <span class="string">','</span></span><br><span class="line"></span><br><span class="line">    fields_defn_serial = fields_defn_serial.rstrip(<span class="string">', '</span>)</span><br><span class="line">    fields_comma_serial = fields_comma_serial.rstrip(<span class="string">', '</span>)</span><br><span class="line"></span><br><span class="line">    table_name = layer_defn.GetName()</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"fields_comma_serial"</span> + fields_comma_serial</span><br><span class="line">    <span class="keyword">print</span> <span class="string">"""create table %s (</span><br><span class="line">                   %s,</span><br><span class="line">                   fid varchar primary key,</span><br><span class="line">                   geom varchar)"""</span> % (table_name, fields_defn_serial)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        cursor.execute(<span class="string">"""select 1 from %s"""</span> % (table_name) )</span><br><span class="line">    <span class="keyword">except</span> pyodbc.ProgrammingError:</span><br><span class="line">        <span class="comment"># 1] create table for layer</span></span><br><span class="line">        <span class="comment"># 2] register geom colum in svde_metadata </span></span><br><span class="line">        <span class="comment"># 3] register column in svde_column_defn</span></span><br><span class="line">        cursor.execute(<span class="string">"""create table %s (</span><br><span class="line">                       %s,</span><br><span class="line">                       fid varchar primary key,</span><br><span class="line">                       geom varchar)"""</span> % (table_name, fields_defn_serial) ) </span><br><span class="line">        cursor.commit()</span><br><span class="line"></span><br><span class="line">        geom_type = ogr_geom_type_mapping[str(layer_defn.GetGeomType())]</span><br><span class="line">        geom_dimension = str(<span class="number">2</span>)</span><br><span class="line">        geom_srid = str(<span class="number">900913</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">print</span> <span class="string">"""insert into svde_metadata(table_name, geom_column_name, geom_type,</span><br><span class="line">                geom_dimension, geom_srid) values (%s, 'geom', %s, %s, %s)</span><br><span class="line">                """</span> % (repr(table_name), repr(geom_type), repr(geom_dimension), repr(geom_srid) )</span><br><span class="line"></span><br><span class="line">        cursor.execute(<span class="string">"""insert into svde_metadata(table_name, geom_column_name, geom_type,</span><br><span class="line">                geom_dimension, geom_srid) values (%s, 'geom', %s, %s, %s)</span><br><span class="line">                """</span> % (repr(table_name), repr(geom_type), repr(geom_dimension), repr(geom_srid) ) )</span><br><span class="line"></span><br><span class="line">        <span class="keyword">print</span> fields_type_dict</span><br><span class="line">        <span class="keyword">for</span> cname, cvalue <span class="keyword">in</span> fields_type_dict.items():</span><br><span class="line">            cursor.execute(<span class="string">"""insert into svde_column_defn( table_name, column_name, column_type)</span><br><span class="line">                            values ('%s', '%s', '%s')"""</span> % (table_name, cname, str(cvalue)) )</span><br><span class="line">        cursor.commit()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">"table "</span> + str(table_name) + <span class="string">"already exsit"</span></span><br><span class="line">    <span class="keyword">finally</span>:</span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment"># Read shapefile layer into OGR objects and Persist ogr objects into dameng </span></span><br><span class="line">    </span><br><span class="line">    fid = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> feat <span class="keyword">in</span> layer:</span><br><span class="line">        fid = fid + <span class="number">1</span></span><br><span class="line">        values_comma_serial = <span class="string">""</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">0</span>, field_count-<span class="number">1</span>):</span><br><span class="line">            value = feat.GetFieldAsString(i)</span><br><span class="line">            values_comma_serial += repr(value) + <span class="string">','</span></span><br><span class="line"></span><br><span class="line">        values_comma_serial = values_comma_serial.rstrip(<span class="string">','</span>)</span><br><span class="line">        geom_wkt = feat.GetGeometryRef().ExportToWkt()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">print</span> <span class="string">"""insert into %s(%s, fid, geom) values (%s, '%s' , '%s')"""</span> % (</span><br><span class="line">            table_name, fields_comma_serial, values_comma_serial, str(fid), geom_wkt) </span><br><span class="line">        </span><br><span class="line">        cursor.execute(<span class="string">"""insert into %s(%s, fid, geom) values (%s, '%s' , '%s')"""</span> % (</span><br><span class="line">            table_name, fields_comma_serial, values_comma_serial, str(fid), geom_wkt) )</span><br><span class="line">        <span class="comment"># allowed most 100 sql statement, so should not commit after execute all</span></span><br><span class="line">        cursor.commit()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__  ==   <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
 ]]></content>
@@ -297,6 +309,10 @@
     
       <category term="gis" scheme="http://yoursite.com/tags/gis/"/>
     
+      <category term="pyodbc" scheme="http://yoursite.com/tags/pyodbc/"/>
+    
+      <category term="python" scheme="http://yoursite.com/tags/python/"/>
+    
   </entry>
   
   <entry>
@@ -304,13 +320,15 @@
     <link href="http://yoursite.com/2014/12/09/Programming/C-API%E8%AE%BE%E8%AE%A1%E6%80%BB%E7%BB%93/"/>
     <id>http://yoursite.com/2014/12/09/Programming/C-API设计总结/</id>
     <published>2014-12-09T11:59:20.000Z</published>
-    <updated>2015-07-05T16:24:12.000Z</updated>
+    <updated>2015-07-26T16:47:24.000Z</updated>
     <content type="html"></content>
     <summary type="html">
     
     </summary>
     
-      <category term="programming, 设计" scheme="http://yoursite.com/tags/programming-%E8%AE%BE%E8%AE%A1/"/>
+      <category term="programming" scheme="http://yoursite.com/tags/programming/"/>
+    
+      <category term="设计" scheme="http://yoursite.com/tags/%E8%AE%BE%E8%AE%A1/"/>
     
   </entry>
   
@@ -319,7 +337,7 @@
     <link href="http://yoursite.com/2014/12/08/GIS/GIS%E7%A9%BA%E9%97%B4%E7%B4%A2%E5%BC%95%E6%8A%80%E6%9C%AF%E6%80%BB%E7%BB%93/"/>
     <id>http://yoursite.com/2014/12/08/GIS/GIS空间索引技术总结/</id>
     <published>2014-12-08T06:44:54.000Z</published>
-    <updated>2015-07-15T17:38:58.000Z</updated>
+    <updated>2015-07-26T16:46:17.000Z</updated>
     <content type="html"><![CDATA[<h3 id="GIS索引技术总结">GIS索引技术总结</h3><ul>
 <li>网格索引</li>
 <li>四叉树索引</li>
@@ -337,6 +355,8 @@
     
       <category term="gis" scheme="http://yoursite.com/tags/gis/"/>
     
+      <category term="索引" scheme="http://yoursite.com/tags/%E7%B4%A2%E5%BC%95/"/>
+    
   </entry>
   
   <entry>
@@ -344,11 +364,13 @@
     <link href="http://yoursite.com/2014/11/10/Programming/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E6%80%BB%E7%BB%93/"/>
     <id>http://yoursite.com/2014/11/10/Programming/设计模式总结/</id>
     <published>2014-11-10T00:49:35.000Z</published>
-    <updated>2015-07-05T16:24:12.000Z</updated>
+    <updated>2015-07-26T16:33:57.000Z</updated>
     <content type="html"></content>
     <summary type="html">
     
     </summary>
+    
+      <category term="软件设计" scheme="http://yoursite.com/tags/%E8%BD%AF%E4%BB%B6%E8%AE%BE%E8%AE%A1/"/>
     
   </entry>
   
@@ -357,11 +379,13 @@
     <link href="http://yoursite.com/2014/10/29/Linux/%E6%9C%8D%E5%8A%A1%E5%99%A8IO%E6%A8%A1%E5%9E%8B%E6%80%BB%E7%BB%93/"/>
     <id>http://yoursite.com/2014/10/29/Linux/服务器IO模型总结/</id>
     <published>2014-10-29T14:49:30.000Z</published>
-    <updated>2015-07-05T16:24:12.000Z</updated>
+    <updated>2015-07-26T16:47:04.000Z</updated>
     <content type="html"></content>
     <summary type="html">
     
     </summary>
+    
+      <category term="i/o" scheme="http://yoursite.com/tags/i-o/"/>
     
       <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
     
@@ -372,13 +396,17 @@
     <link href="http://yoursite.com/2014/10/08/Linux/%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B9%B6%E5%8F%91%E7%AD%96%E7%95%A5%E6%80%BB%E7%BB%93/"/>
     <id>http://yoursite.com/2014/10/08/Linux/服务器并发策略总结/</id>
     <published>2014-10-08T14:49:15.000Z</published>
-    <updated>2015-07-05T16:24:12.000Z</updated>
+    <updated>2015-07-26T16:47:14.000Z</updated>
     <content type="html"></content>
     <summary type="html">
     
     </summary>
     
+      <category term="concurrency" scheme="http://yoursite.com/tags/concurrency/"/>
+    
       <category term="linux" scheme="http://yoursite.com/tags/linux/"/>
+    
+      <category term="multi thread" scheme="http://yoursite.com/tags/multi-thread/"/>
     
   </entry>
   
@@ -387,7 +415,7 @@
     <link href="http://yoursite.com/2014/05/04/DataBase/PostGIS%E6%80%BB%E7%BB%93/"/>
     <id>http://yoursite.com/2014/05/04/DataBase/PostGIS总结/</id>
     <published>2014-05-04T09:22:26.000Z</published>
-    <updated>2015-07-05T16:24:12.000Z</updated>
+    <updated>2015-07-26T16:36:39.000Z</updated>
     <content type="html"></content>
     <summary type="html">
     
@@ -402,7 +430,7 @@
     <link href="http://yoursite.com/2014/04/14/DataBase/%E4%B8%BA%E4%BB%80%E4%B9%88NoSQL/"/>
     <id>http://yoursite.com/2014/04/14/DataBase/为什么NoSQL/</id>
     <published>2014-04-14T12:34:24.000Z</published>
-    <updated>2015-07-05T16:24:12.000Z</updated>
+    <updated>2015-07-26T16:46:00.000Z</updated>
     <content type="html"><![CDATA[<h3 id=""> </h3><p>在Youtube上看了fall Martin的关于NoSQL的演讲视频<a href="">Introduction of NoSQL</a>收获很多，然而之前并木有想到坐着想打的这些问题，如是做一下总结：</p>
 ]]></content>
     <summary type="html">
@@ -412,20 +440,7 @@
     
       <category term="database" scheme="http://yoursite.com/tags/database/"/>
     
-  </entry>
-  
-  <entry>
-    <title><![CDATA[读Architecture of a Database System牛文有感]]></title>
-    <link href="http://yoursite.com/2014/04/02/DataBase/%E8%AF%BBArchitecture%20of%20a%20Database%20System/"/>
-    <id>http://yoursite.com/2014/04/02/DataBase/读Architecture of a Database System/</id>
-    <published>2014-04-02T13:34:13.000Z</published>
-    <updated>2015-07-05T16:24:12.000Z</updated>
-    <content type="html"></content>
-    <summary type="html">
-    
-    </summary>
-    
-      <category term="database" scheme="http://yoursite.com/tags/database/"/>
+      <category term="nosql" scheme="http://yoursite.com/tags/nosql/"/>
     
   </entry>
   
@@ -434,7 +449,7 @@
     <link href="http://yoursite.com/2014/04/02/DataBase/%E4%BB%8EACID%E5%88%B0CAP-BASE/"/>
     <id>http://yoursite.com/2014/04/02/DataBase/从ACID到CAP-BASE/</id>
     <published>2014-04-02T13:34:13.000Z</published>
-    <updated>2015-07-05T16:24:12.000Z</updated>
+    <updated>2015-07-26T16:44:40.000Z</updated>
     <content type="html"><![CDATA[<h3 id="前言">前言</h3><h3 id="ACID">ACID</h3><p>数据库系统真正庞大而复杂的部分是事务存储管理器，该部分由以下四个彼此紧密关联的组件组成：</p>
 <ul>
 <li>用于并发控制的锁管理器</li>
@@ -465,7 +480,30 @@
 <li>用于事务恢复的日志管理器</li]]>
     </summary>
     
+      <category term="acid" scheme="http://yoursite.com/tags/acid/"/>
+    
+      <category term="base" scheme="http://yoursite.com/tags/base/"/>
+    
+      <category term="cap" scheme="http://yoursite.com/tags/cap/"/>
+    
       <category term="database" scheme="http://yoursite.com/tags/database/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[读Architecture of a Database System牛文有感]]></title>
+    <link href="http://yoursite.com/2014/04/02/DataBase/%E8%AF%BBArchitecture%20of%20a%20Database%20System/"/>
+    <id>http://yoursite.com/2014/04/02/DataBase/读Architecture of a Database System/</id>
+    <published>2014-04-02T13:34:13.000Z</published>
+    <updated>2015-07-26T16:38:03.000Z</updated>
+    <content type="html"></content>
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="database" scheme="http://yoursite.com/tags/database/"/>
+    
+      <category term="database" scheme="http://yoursite.com/categories/database/"/>
     
   </entry>
   
@@ -474,7 +512,7 @@
     <link href="http://yoursite.com/2014/03/18/DataBase/PostgreSQL%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%96%E6%80%BB%E7%BB%93/"/>
     <id>http://yoursite.com/2014/03/18/DataBase/PostgreSQL查询优化总结/</id>
     <published>2014-03-18T03:11:06.000Z</published>
-    <updated>2015-07-05T16:24:12.000Z</updated>
+    <updated>2015-07-26T16:36:44.000Z</updated>
     <content type="html"></content>
     <summary type="html">
     
@@ -489,7 +527,7 @@
     <link href="http://yoursite.com/2014/03/03/DataBase/PostgreSQL%E7%B4%A2%E5%BC%95%E6%8A%80%E6%9C%AF/"/>
     <id>http://yoursite.com/2014/03/03/DataBase/PostgreSQL索引技术/</id>
     <published>2014-03-03T00:35:42.000Z</published>
-    <updated>2015-07-05T16:24:12.000Z</updated>
+    <updated>2015-07-26T16:36:50.000Z</updated>
     <content type="html"></content>
     <summary type="html">
     
@@ -504,7 +542,7 @@
     <link href="http://yoursite.com/2014/02/09/Linux/Linux%E6%96%87%E6%9C%AC%E6%93%8D%E4%BD%9C%E5%B7%A5%E5%85%B7%E6%80%BB%E7%BB%93/"/>
     <id>http://yoursite.com/2014/02/09/Linux/Linux文本操作工具总结/</id>
     <published>2014-02-09T09:27:37.000Z</published>
-    <updated>2015-07-05T16:24:12.000Z</updated>
+    <updated>2015-07-26T16:34:09.000Z</updated>
     <content type="html"></content>
     <summary type="html">
     
@@ -519,7 +557,7 @@
     <link href="http://yoursite.com/2014/01/28/Linux/Linux%E6%96%87%E4%BB%B6%E4%B8%8E%E7%A3%81%E7%9B%98%E6%93%8D%E4%BD%9C%E5%B7%A5%E5%85%B7%E6%80%BB%E7%BB%93/"/>
     <id>http://yoursite.com/2014/01/28/Linux/Linux文件与磁盘操作工具总结/</id>
     <published>2014-01-28T02:26:20.000Z</published>
-    <updated>2015-07-05T16:24:12.000Z</updated>
+    <updated>2015-07-26T16:34:04.000Z</updated>
     <content type="html"></content>
     <summary type="html">
     
@@ -534,7 +572,7 @@
     <link href="http://yoursite.com/2014/01/18/Linux/Linux%E7%BD%91%E7%BB%9C%E6%93%8D%E4%BD%9C%E5%B7%A5%E5%85%B7%E6%80%BB%E7%BB%93/"/>
     <id>http://yoursite.com/2014/01/18/Linux/Linux网络操作工具总结/</id>
     <published>2014-01-18T07:44:39.000Z</published>
-    <updated>2015-07-05T16:24:12.000Z</updated>
+    <updated>2015-07-26T16:34:18.000Z</updated>
     <content type="html"></content>
     <summary type="html">
     
@@ -549,7 +587,7 @@
     <link href="http://yoursite.com/2014/01/04/Linux/Linux%E8%BF%9B%E7%A8%8B%E5%92%8C%E4%BB%BB%E5%8A%A1%E6%93%8D%E4%BD%9C%E5%B7%A5%E5%85%B7%E6%80%BB%E7%BB%93/"/>
     <id>http://yoursite.com/2014/01/04/Linux/Linux进程和任务操作工具总结/</id>
     <published>2014-01-04T06:55:58.000Z</published>
-    <updated>2015-07-05T16:24:12.000Z</updated>
+    <updated>2015-07-26T16:34:24.000Z</updated>
     <content type="html"></content>
     <summary type="html">
     
