@@ -159,27 +159,64 @@
     <link href="http://yoursite.com/2015/07/20/c-%E8%B5%84%E6%BA%90%E7%AE%A1%E7%90%86%E7%BB%8F%E9%AA%8C%E8%B0%88/"/>
     <id>http://yoursite.com/2015/07/20/c-资源管理经验谈/</id>
     <published>2015-07-19T17:47:32.000Z</published>
-    <updated>2015-07-26T16:32:47.000Z</updated>
+    <updated>2015-07-27T16:37:44.000Z</updated>
     <content type="html"><![CDATA[<h3 id="前言">前言</h3><p>编写中…</p>
 <h3 id="Step1:_用对象管理资源">Step1: 用对象管理资源</h3><h3 id="Step2:_RAII原则来申请和释放资源">Step2: RAII原则来申请和释放资源</h3><ul>
 <li>在构造的时候申请资源，在析构的时候释放资源</li>
 </ul>
-<h3 id="Step3:_管理好对象的生命周期">Step3: 管理好对象的生命周期</h3><p>管理好对象的生命周期，对于单线程环境来说比较好办，注意几点就行了，但是对于多线程环境就比较难处理了。</p>
-<h4 id="构造">构造</h4><ul>
+<h3 id="Step3:_管理好对象的生命周期">Step3: 管理好对象的生命周期</h3><p>管理好对象的生命周期，对于单线程环境来说比较好办，注意几点就行了，但是对于多线程环境就比较难处理了。下面首先讲一些单线程环境下对象生命周期中需要注意的事项：</p>
+<p><strong>构造:</strong>：</p>
+<ul>
 <li>不要在构造函数中暴露this指针，典型的不要调用观察者或者访问者接口，因为这个时候对象还没有构造完，不应该被调用</li>
 </ul>
-<h4 id="析构">析构</h4><ul>
+<p><strong>析构:</strong></p>
+<ul>
 <li>不要在析构函数中抛出异常,异常会改变程序执行的顺序。</li>
 <li>父类析构函数应该定义为virtual,否则子类独有的资源不会被释放.</li>
 </ul>
-<h4 id="赋值">赋值</h4><p>首先回顾一下赋值操作符的四个要点：</p>
+<p><strong>拷贝构造:</strong></p>
+<p>调用拷贝构造的时机：</p>
+<ul>
+<li>用一个对象构造另一个对象 Point fei();Point lun(fei);</li>
+<li>参数传递使用传值的方式的时候</li>
+<li>函数返回类型值的时候</li>
+<li>Point fei = lun;(不会调用赋值操作符，只会调用拷贝构造)</li>
+</ul>
+<p><strong>赋值:</strong></p>
+<p>首先回顾一下赋值操作符的四个要点：</p>
 <ul>
 <li>检查是否为同一个地址<code>if(this == &amp;rhs) return *this</code></li>
 <li>参数为类型的常引用<code>const Feature&amp; rhs</code></li>
 <li>返回为<code>*this</code></li>
 <li>在分配资源之前先回收清理原有的资源</li>
 </ul>
-<h4 id="拷贝构造">拷贝构造</h4><h3 id="关于内存管理">关于内存管理</h3><p>C++中可能出现的内存问题:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">Point <span class="title">fei</span><span class="params">()</span></span>;</span><br><span class="line">Point lun = fei; <span class="comment">/// 只会调用拷贝构造函数</span></span><br><span class="line"></span><br><span class="line"><span class="function">Point <span class="title">foo</span><span class="params">()</span></span>;</span><br><span class="line">foo = fei; <span class="comment">/// 只会调用赋值操作符</span></span><br></pre></td></tr></table></figure>
+<h3 id="多线程下对象生命周期的管理">多线程下对象生命周期的管理</h3><h3 id="聚合资源与组合资源">聚合资源与组合资源</h3><p>结论：</p>
+<ol>
+<li>使用对象来管理资源，使用RAII原则来申请和释放资源</li>
+<li>对于聚合资源对象的类，使用依赖注入和shared_ptr来构造</li>
+</ol>
+<ul>
+<li>RAII（资源申请和释放更安全）</li>
+<li>依赖注入（构造更块，调用安全）</li>
+</ul>
+<p><strong>依赖注入和控制反转</strong><br>依赖注入是一种将对象传入到某个类中的（注入），而不是让这个类自己创建并存储该对象的技巧，可将其作为控制反转概念的一种更为特殊的形式。举个例子：<br><figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RedisDataSource</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    RedisConnection*    poDriver_;</span><br><span class="line">    Vector&lt;OGRLayer*&gt;   layers_;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    RedisDataSource():</span><br><span class="line">        poDriver_(<span class="keyword">new</span> RedisConnection(<span class="string">"host=192.168.1.23 port=5432 db=2"</span>))</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">/// 其他操作</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面的代码存在以下问题：</p>
+<ol>
+<li>如果RedisConnection的构造函数发生了变化，或者修改了数据库的端口，那么就必须修改RedisDataSource来解决</li>
+<li>从销量来看，RedisDataSource的构造过程较长，切每个RedisDataSource事例都需要创建一个RedisConnection对象</li>
+<li>RedisDataSource强依赖于RedisConnection的定义</li>
+</ol>
+<p>然而如果采用依赖注入的方式：</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">RedisDataSource</span></span><br><span class="line"></span>&#123;</span><br><span class="line">    RedisConnection*    poDriver_;</span><br><span class="line">    Vector&lt;OGRLayer*&gt;   layers_;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    RedisDataSource(RedisConnection* poRedis):</span><br><span class="line">        poDriver_(poRedis)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">/// 其他操作</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ol>
+<li>RedisDataSource只需要前置生命RedisConnection即可，依赖性相对较低</li>
+<li>可以由RedisDataSource的工厂来创建RedisConnection并注入到RedisDataSource中，工厂负责维护RedisDataSource状态的正确性</li>
+</ol>
+<p>对于上面依赖注入的例子，我们将Redis链接当作是资源的话，用对象来管理资源没有问题(RedisConnection类),使用依赖注入的方式还可以让对个RedisDataSource实例公用一个RedisConnection对象。但是这就要保证共享的RedisConnection生命周期的安全，也就是上面的Step3的要求,具体点就是资源对象在正确的时候析构。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> RedisDataSource : <span class="keyword">public</span> DataSource</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// RedisConnection*    poDriver_;</span></span><br><span class="line">    <span class="built_in">std</span>::<span class="built_in">shared_ptr</span>&lt;RedisConnection&gt; poDriver_;</span><br><span class="line"></span><br><span class="line">    Vector&lt;OGRLayer*&gt;   layers_;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    RedisDataSource(RedisConnection* poRedis)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">/// 其他操作</span></span><br><span class="line">        <span class="keyword">if</span>(poRedis)</span><br><span class="line">        &#123;</span><br><span class="line">            poDriver_ = <span class="built_in">std</span>::make_shared&lt;RedisConnection&gt;(poRedis);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 用于共享本类的连接</span></span><br><span class="line">    RedisConnection* getConnection() <span class="keyword">const</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> poDriver_.get();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> DataSourceFactory</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">    <span class="keyword">static</span> DataSource* CreateDataSource(<span class="built_in">std</span>::<span class="built_in">string</span> dsType, <span class="built_in">std</span>::<span class="built_in">string</span> connInfo)</span><br><span class="line">    &#123;</span><br><span class="line">        DataSource *poRet = NULL;</span><br><span class="line">        <span class="keyword">if</span>(dsType == <span class="string">"redis"</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            RedisConnection* poRedisCon = <span class="keyword">new</span> RedisConnection(connInfo);</span><br><span class="line">            <span class="keyword">if</span>(poRedisCon)</span><br><span class="line">            &#123;</span><br><span class="line">                poRet = <span class="keyword">new</span> RedisDataSource(<span class="keyword">new</span> RedisConnection(connInfo));</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> poRet;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> DataSource* CreateDataSource(<span class="built_in">std</span>::<span class="built_in">string</span> dsType, Connection* poConn)</span><br><span class="line">    &#123;</span><br><span class="line">        DataSource *poRet = NULL;</span><br><span class="line">        <span class="keyword">if</span>(dsType == <span class="string">"redis"</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span>(poConn &amp;&amp; poConn.getName() == <span class="string">"redis"</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                poRet = <span class="keyword">new</span> RedisDataSource(<span class="keyword">new</span> RedisConnection(connInfo));</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// ...</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// ...</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> poRet;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">RedisConnection* poRedis = DataSourceFactory::CreateDataSource(<span class="string">"redis"</span>, <span class="string">"host=192.168.1.44..."</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 共用链接</span></span><br><span class="line">RedisConnection* poRedis2 - DataSOurceFactory::CreateDataSource(<span class="string">"redis"</span>, poRedis.getConnection);</span><br></pre></td></tr></table></figure>
+<h3 id="关于内存管理">关于内存管理</h3><p>C++中可能出现的内存问题:</p>
 <ul>
 <li>缓冲区溢出</li>
 <li>空悬指针/野指针</li>
@@ -188,7 +225,13 @@
 <li>不配对的new/delete</li>
 <li>内存碎片</li>
 </ul>
-<h3 id="关于链接管理">关于链接管理</h3><p>SVDE中的连接</p>
+<h3 id="关于类型安全">关于类型安全</h3><p>从指向父亲的指针转为指向孩子节点的指针</p>
+<h3 id="Reference">Reference</h3><ul>
+<li>《c++ API设计》by Martin Reddy</li>
+<li>《企业应用架构》by Martin Fowler</li>
+<li>《effective c++》</li>
+<li>《Linux多线程服务器编程》 by 陈硕</li>
+</ul>
 ]]></content>
     <summary type="html">
     <![CDATA[<h3 id="前言">前言</h3><p>编写中…</p>
@@ -379,10 +422,41 @@
     <link href="http://yoursite.com/2014/10/29/Linux/%E6%9C%8D%E5%8A%A1%E5%99%A8IO%E6%A8%A1%E5%9E%8B%E6%80%BB%E7%BB%93/"/>
     <id>http://yoursite.com/2014/10/29/Linux/服务器IO模型总结/</id>
     <published>2014-10-29T14:49:30.000Z</published>
-    <updated>2015-07-26T16:47:04.000Z</updated>
-    <content type="html"></content>
+    <updated>2015-07-27T09:23:33.000Z</updated>
+    <content type="html"><![CDATA[<h3 id="阻塞与非阻塞、同步与异步">阻塞与非阻塞、同步与异步</h3><p>首先说说一下几个大家常说的IO模型:</p>
+<ul>
+<li>Blocking</li>
+<li>Non-blocking</li>
+<li>Synchronize</li>
+<li>Asynchronize</li>
+</ul>
+<p>这几个概念还是很容易区分的，举个例子说明一切：<br>代码编写上要做a->b->c三件事，行a的过程中要进行IO，比如说从磁盘读文件，IO速度相对于cpu的内存操作来说慢很多，一般都是由DMA来讲数据从磁盘搬运到内存的内核空间，所以按理来说cpu需要等DMA把数据搬完了才能做接下来的对这些数据的操作。</p>
+<p><strong> Blocking 的做法:</strong><br>执行a，发现需要进行IO，内核将该进程挂起，等DMA把数据搬完了，内核把该进程唤醒，放在就绪队列，等待分配cpu并进行执行</p>
+<p><strong> Non-blocking的做法 </strong><br>执行a, 发现要进行IO，然后不同的循环检查DMA有没有搬完，有点像自旋锁，进程不挂起，cpu一直进行检查运算，等DMA搬完之后，cpu继续执行b操作。</p>
+<p><strong> Synchronize的做法 </strong><br>同步IO只是说明，在a完成之前不能进行后面的b操作，所以以上说的阻塞和非阻塞情况都是属于同步IO，后面介绍的IO复用也是同步的做法，但是IO复用不一定是阻塞的，根据IO复用API参数的配置可以配置成阻塞的，也可以配置称非阻塞的。</p>
+<p><strong> Asynchronize的做法 </strong><br>不必非要等a执行完了才能执行b操作，执行a不是要等DMA搬运数据啊，在DMA搬运数据的时候cpu可以执行后面的b操作，有可能在执行完b操作之后，DMA数据搬完了，再去处理a。</p>
+<p>除了异步IO、还有很多使用异步思想的技术，一下列出我能想到的</p>
+<ul>
+<li>web前端中的各种事件，JS代码处理当鼠标悬浮，右击等时间之后的处理。</li>
+<li>MFC/Cocoa/IOS/Android中的基于UI的用户交互操作都是基于这种异步事件思想，用户的交互触发某个事件，这个事件事先绑定了事件处理函数，也就是回调。</li>
+<li>NodeJS中的Event Loop</li>
+</ul>
+<h3 id="IO复用">IO复用</h3><p>IO复用属于同步IO，可能是阻塞，也可能是非阻塞。</p>
+<ul>
+<li>select</li>
+<li>poll</li>
+<li>epoll （Linux）</li>
+<li>kqueue (FreeBSD)</li>
+<li></li>
+</ul>
+<h3 id="Reactor和Preactor">Reactor和Preactor</h3>]]></content>
     <summary type="html">
-    
+    <![CDATA[<h3 id="阻塞与非阻塞、同步与异步">阻塞与非阻塞、同步与异步</h3><p>首先说说一下几个大家常说的IO模型:</p>
+<ul>
+<li>Blocking</li>
+<li>Non-blocking</li>
+<li>Synchronize</li>
+<li>Async]]>
     </summary>
     
       <category term="i/o" scheme="http://yoursite.com/tags/i-o/"/>
@@ -445,6 +519,23 @@
   </entry>
   
   <entry>
+    <title><![CDATA[读Architecture of a Database System牛文有感]]></title>
+    <link href="http://yoursite.com/2014/04/02/DataBase/%E8%AF%BBArchitecture%20of%20a%20Database%20System/"/>
+    <id>http://yoursite.com/2014/04/02/DataBase/读Architecture of a Database System/</id>
+    <published>2014-04-02T13:34:13.000Z</published>
+    <updated>2015-07-26T16:46:07.000Z</updated>
+    <content type="html"></content>
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="database" scheme="http://yoursite.com/tags/database/"/>
+    
+      <category term="database" scheme="http://yoursite.com/categories/database/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[从ACID到CAP/BASE]]></title>
     <link href="http://yoursite.com/2014/04/02/DataBase/%E4%BB%8EACID%E5%88%B0CAP-BASE/"/>
     <id>http://yoursite.com/2014/04/02/DataBase/从ACID到CAP-BASE/</id>
@@ -487,23 +578,6 @@
       <category term="cap" scheme="http://yoursite.com/tags/cap/"/>
     
       <category term="database" scheme="http://yoursite.com/tags/database/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[读Architecture of a Database System牛文有感]]></title>
-    <link href="http://yoursite.com/2014/04/02/DataBase/%E8%AF%BBArchitecture%20of%20a%20Database%20System/"/>
-    <id>http://yoursite.com/2014/04/02/DataBase/读Architecture of a Database System/</id>
-    <published>2014-04-02T13:34:13.000Z</published>
-    <updated>2015-07-26T16:38:03.000Z</updated>
-    <content type="html"></content>
-    <summary type="html">
-    
-    </summary>
-    
-      <category term="database" scheme="http://yoursite.com/tags/database/"/>
-    
-      <category term="database" scheme="http://yoursite.com/categories/database/"/>
     
   </entry>
   
